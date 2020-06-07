@@ -37,7 +37,7 @@ class App extends Component {
         if (todo.id === id) {
           todo.complected = !todo.complected;
         }
-        // console.log('App -> markComplete -> todo', todo);
+        console.log('App -> markComplete -> todo', todo);
         return todo;
       }),
     });
@@ -45,8 +45,9 @@ class App extends Component {
 
   delTodo = (id) => {
     this.setState({
-      todos: [...this.state.todos.filter((todo) => todo.id !== id)],
+      todos: this.state.todos.filter((todo) => todo.id !== id),
     });
+    // console.log(this.state.todos.filter((todo) => todo.id !== id));
   };
 
   addTodo = (title) => {
