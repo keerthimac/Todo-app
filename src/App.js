@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Todo from './components/Todo';
+import { v4 as uuidv4 } from 'uuid';
+
 import './App.css';
+
+import Todo from './components/Todo';
 import Header from './components/layout/Header';
+import Alert from './components/layout/Alert';
 import AddTodo from './components/AddTodo';
 import About from './components/pages/About';
-import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   const [todos, setTodos] = useState([
@@ -25,6 +28,8 @@ const App = () => {
       complected: false,
     },
   ]);
+
+  const [alert, setAlert] = useState(null);
 
   const markComplete = (id) => {
     setTodos(
@@ -52,6 +57,10 @@ const App = () => {
     setTodos([...todos, newTodo]);
   };
 
+  const addAlert = (message, classname) => {
+    setAlert({ message, classname });
+    setTimeout(() => setAlert(null), 2000);
+  };
   // console.log(this.state);
 
   return (
@@ -59,12 +68,14 @@ const App = () => {
       <div className="App">
         <div className="container">
           <Header />
+          <Alert alert={alert} />
+
           <Route
             exact
             path="/"
             render={(props) => (
               <React.Fragment>
-                <AddTodo addTodo={addTodo} />
+                <AddTodo addTodo={addTodo} addAlert={addAlert} />
                 <Todo todos={todos} markComplete={markComplete} delTodo={delTodo} />
               </React.Fragment>
             )}
